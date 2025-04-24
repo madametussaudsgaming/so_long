@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:32:25 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/23 23:14:06 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:59:26 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ typedef struct s_window {
 	void	*window;
 	t_data	*img;
 	char	**map;
+	int		moves;
+	int		items_left;
+	int		won;
+	void	*win_img;
 }	t_window;
 
 void make_map(char **map, t_data *img, int tile_size);

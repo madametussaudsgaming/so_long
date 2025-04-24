@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:04:00 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/24 14:30:15 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:22:28 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,9 @@ void	make_map(char **map, t_data *img, int tile_size)
 
 int drax(int keycode, void *param)
 {
-    printf("Key pressed: %d\n", keycode);
     t_window *win = (t_window *)param;
 
-    if (keycode == 65307) // ESC key 2. Schedule cleanup for the next loop iteration
+    if (keycode == 65307)
 		mlx_loop_end(win->mlx);
 	else if (keycode == 'w' || keycode == 65362)
 		move_player(win->map, 'W', win);
@@ -156,6 +155,12 @@ void cleanup(t_window *win)
         mlx_destroy_image(win->mlx, win->img->img);
         win->img->img = NULL;
     }
+
+	if (win->win_img)
+	{
+		mlx_destroy_image(win->mlx, win->win_img);
+		win->win_img = NULL;
+	}
 
     // 2. Destroy window if it exists
     if (win->window)
@@ -299,7 +304,10 @@ void	render_map(char **map, t_data *img, int tile_size)
 
 void	move_player(char **map, char dir, t_window *win)
 {
+	if (win->won)
+		return;
 	t_coord p = find_player(map);
+	/*temp coordinates*/
 	int nx = p.x;
 	int ny = p.y;
 
@@ -318,22 +326,75 @@ void	move_player(char **map, char dir, t_window *win)
 		return;
 	}
 
-	if (map[ny][nx] == '0' || map[ny][nx] == 'C')
+	char dest = map[ny][nx];
+
+	if (dest == '1')
+		return;
+
+	if (dest == 'C')
+		win->items_left--;
+
+	if (dest == 'E')
+	{
+		if (win->items_left == 0)
+		{
+			map[ny][nx] = 'P';
+			map[p.y][p.x] = '0';
+			win->won = 1;
+			render_map(map, win->img, 50);
+			void *img = mlx_xpm_file_to_image(win->mlx, "you_win.xpm", &(int){0}, &(int){0});
+			if (img)
+			{
+				win->win_img = img;
+				mlx_put_image_to_window(win->mlx, win->window, img, 0, 0);
+			}
+			printf("🎉🎉🎉We have a winner! Press ESC to exit...\n");
+			return;
+		}
+		else
+		{
+			printf("The yellow things...\n");
+			return;
+		}
+	}
+
+	if (dest == '0' || dest == 'C')
 	{
 		map[ny][nx] = 'P';
 		map[p.y][p.x] = '0';
-		ft_printf("Moved %c to [%d,%d]\n", dir, ny, nx);
+		win->moves++;
+		printf("Moved %c to [%d,%d] | Moves: %d | C left: %d\n", dir, ny, nx, win->moves, win->items_left);
 
 		render_map(map, win->img, 50);
 		mlx_put_image_to_window(win->mlx, win->window, win->img->img, 0,0);
 	}
 	else
-	{
 		ft_printf("Blocked at [%d,%d]\n", ny, nx);
-	}
 	for (int i = 0; map[i]; i++)
 		printf("%s", map[i]);
 	printf("\n");
+}
+
+int	count_collectibles(char **map)
+{
+	int	i;
+	int	j;
+	int c;
+
+	i = 0;
+	c = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'C')
+				c++;
+			j++;
+		}
+		i++;
+	}
+	return (c);
 }
 
 int	main(int argc, char *argv[])
@@ -358,6 +419,8 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	win.map = map;
+	win.items_left = count_collectibles(map);
+	win.moves = 0;
     win.mlx = mlx_init();
     if (!win.mlx)
 		return (1);
