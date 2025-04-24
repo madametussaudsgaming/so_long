@@ -6,14 +6,11 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:04:00 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/21 14:27:46 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/24 14:30:15 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include "../headerfile/so_long.h"
-#include <stdio.h>
-#include <math.h>
 
 /*
 ALPHA RED GREEND BLUE
@@ -139,6 +136,15 @@ int drax(int keycode, void *param)
 
     if (keycode == 65307) // ESC key 2. Schedule cleanup for the next loop iteration
 		mlx_loop_end(win->mlx);
+	else if (keycode == 'w' || keycode == 65362)
+		move_player(win->map, 'W', win);
+	else if (keycode == 'a' || keycode == 65361)
+		move_player(win->map, 'A', win);
+	else if (keycode == 's' || keycode == 65364)
+		move_player(win->map, 'S', win);
+	else if (keycode == 'd' || keycode == 65363)
+		move_player(win->map, 'D', win);
+
     return (0);
 }
 
@@ -169,39 +175,208 @@ void cleanup(t_window *win)
     #endif
 }
 
-int	main(void)
+int		validate_map(char **map)
 {
-	t_window win = {0};
-    t_data mlx_img = {0};
+	int i;
+	int j;
+	int e;
+	int p;
+	int c;
 
+	i = 0;
+	j = 0;
+	e = 0;
+	p = 0;
+	c = 0;
+	while (map[i])
+	{
+		while(map[i][j])
+		{
+			if ((map[i][j]) == 'P')
+				p++;
+			if ((map[i][j]) == 'C')
+				c++;
+			if ((map[i][j]) == 'E')
+				e++;
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	if ((p != 1) || (c < 1) || (e < 1))
+		return (0);
+	return (1);
+}
+
+char	**load_map(const char *path)
+{
+	int		fd;
+	char	*line;
+	char	**map = NULL;
+	int		lines_alloc = 8;
+	int		line_count = 0;
+
+	map = malloc(sizeof(char *) * lines_alloc);
+	if (!map)
+		return (NULL);
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open failed");
+		free(map);
+		return (NULL);
+	}
+	while ((line = get_next_line(fd)))
+	{
+		if (line_count >= lines_alloc - 1)
+		{
+			lines_alloc *= 2;
+			char **tmp = realloc(map, sizeof(char *) * lines_alloc);
+			if (!tmp)
+			{
+				perror("realloc failed");
+				free(line);
+				break;
+			}
+			map = tmp;
+		}
+		map[line_count++] = line;
+	}
+	map[line_count] = NULL;
+	close(fd);
+	return map;
+}
+
+t_coord find_player(char	**map)
+{
+	t_coord pos;
+	pos.x = -1;
+	pos.y = -1;
+
+	for (int y = 0; map[y]; y++)
+	{
+		for (int x = 0; map[y][x]; x++)
+		{
+			if (map[y][x] == 'P')
+			{
+				pos.x = x;
+				pos.y = y;
+				return pos;
+			}
+		}
+	}
+	return pos;
+}
+
+void	render_map(char **map, t_data *img, int tile_size)
+{
+	t_coord xy;
+	int i = 0;
+
+	while (map[i])
+	{
+		int j = 0;
+		while (map[i][j])
+		{
+			xy.x = j * tile_size;
+			xy.y = i * tile_size;
+			if (map[i][j] == '1')
+				draw_tile(xy, img, tile_size, 0x00333333); // wall
+			else if (map[i][j] == '0')
+				draw_tile(xy, img, tile_size, 0x00CCCCCC); // floor
+			else if (map[i][j] == 'P')
+				draw_tile(xy, img, tile_size, 0x0000FF00); // player
+			else if (map[i][j] == 'C')
+				draw_tile(xy, img, tile_size, 0x00FFFF00); // collectible
+			else if (map[i][j] == 'E')
+				draw_tile(xy, img, tile_size, 0x00FF0000); // exit
+			j++;
+		}
+		i++;
+	}
+}
+
+void	move_player(char **map, char dir, t_window *win)
+{
+	t_coord p = find_player(map);
+	int nx = p.x;
+	int ny = p.y;
+
+	if (dir == 'W')
+		ny--;
+	else if (dir == 'S' || dir == 65364)
+		ny++;
+	else if (dir == 'A' || dir == 65361)
+		nx--;
+	else if (dir == 'D' || dir == 65363)
+		nx++;
+
+	if (ny < 0 || map[ny] == NULL || nx < 0 || nx >= (int)strlen(map[ny]))
+	{
+		printf("Out of bounds\n");
+		return;
+	}
+
+	if (map[ny][nx] == '0' || map[ny][nx] == 'C')
+	{
+		map[ny][nx] = 'P';
+		map[p.y][p.x] = '0';
+		ft_printf("Moved %c to [%d,%d]\n", dir, ny, nx);
+
+		render_map(map, win->img, 50);
+		mlx_put_image_to_window(win->mlx, win->window, win->img->img, 0,0);
+	}
+	else
+	{
+		ft_printf("Blocked at [%d,%d]\n", ny, nx);
+	}
+	for (int i = 0; map[i]; i++)
+		printf("%s", map[i]);
+	printf("\n");
+}
+
+int	main(int argc, char *argv[])
+{
+	t_window 	win = {0};
+    t_data 		mlx_img = {0};
+	char		**map;
+
+	if (argc != 2)
+	{
+		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
+		return (1);
+	}
+	map = load_map(argv[1]);
+
+	if (!(validate_map(map)))
+	{
+		fprintf(stderr, "Failed to load map\n");
+		for (int i = 0; map[i]; i++)
+			free(map[i]);
+		free(map);
+		return (1);
+	}
+	win.map = map;
     win.mlx = mlx_init();
-    if (!win.mlx) return (1);
+    if (!win.mlx)
+		return (1);
 
     win.window = mlx_new_window(win.mlx, 960, 480, "Step One!");
     mlx_img.img = mlx_new_image(win.mlx, 1920, 1080);
     mlx_img.addr = mlx_get_data_addr(mlx_img.img, &mlx_img.bitspp, &mlx_img.line_len, &mlx_img.endian);
     win.img = &mlx_img;
 
-	char *map[] = {
-		"11111111111",
-		"10000000001",
-		"10011100001",
-		"1001P100001",
-		"10010100001",
-		"10000000001",
-		"1000E000001",
-		"10000000001",
-		"10000000001",
-		"11111111111",
-		NULL
-	};
 
 	make_map(map, &mlx_img, 50);
+
 	mlx_put_image_to_window(win.mlx, win.window, mlx_img.img, 0, 0);
-
 	mlx_key_hook(win.window, drax, &win);
-    mlx_loop(win.mlx);
 
+    mlx_loop(win.mlx);
+	for (int i = 0; map[i]; i++)
+		free(map[i]);
+	free(map);
     // Cleanup AFTER loop has fully ended
     cleanup(&win);
     return (0);

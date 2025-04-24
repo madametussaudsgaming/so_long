@@ -13,10 +13,13 @@ INCLUDE     = -I includes -I $(MLX_DIR)
 SRCS        = $(wildcard $(SRC_DIR)/*.c)
 OBJS        = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
 all: $(NAME)
 
-$(NAME): $(MLX_LIB) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(MLX_LIB) $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_LIB) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
@@ -25,11 +28,16 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(MLX_LIB):
 	@make -C $(MLX_DIR)
 
+$(LIBFT):
+	@make -C $(LIBFT_DIR) all
+
 clean:
-	rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -rf $(NAME)
+	@make -C $(LIBFT_DIR) fclean -s
 
 re: fclean all
 
