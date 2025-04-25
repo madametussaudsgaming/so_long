@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:04:00 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/24 17:22:28 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/26 00:40:31 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,32 @@ void cleanup(t_window *win)
     #endif
 }
 
+int		ft_mapstrlen(char **map)
+{
+	int	len;
+
+	len = 0;
+	while (map[0][len] != '\n')
+		len++;
+	return (len);
+}
+
+int		top_bot_valid(char **map, int i)
+{
+	int	len;
+	int	j;
+
+	len = ft_mapstrlen(map);
+	j = 0;
+	while (j < len)
+	{
+		if (map[0][j] != '1' || map[i - 1][j] != '1')
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
 int		validate_map(char **map)
 {
 	int i;
@@ -187,15 +213,17 @@ int		validate_map(char **map)
 	int e;
 	int p;
 	int c;
+	int	len;
 
-	i = 0;
-	j = 0;
+	i = -1;
 	e = 0;
 	p = 0;
 	c = 0;
-	while (map[i])
+	len = ft_mapstrlen(map);
+	while (map[++i])
 	{
-		while(map[i][j])
+		j = -1;
+		while(map[i][++j] && map[i][j] != '\n')
 		{
 			if ((map[i][j]) == 'P')
 				p++;
@@ -203,14 +231,13 @@ int		validate_map(char **map)
 				c++;
 			if ((map[i][j]) == 'E')
 				e++;
-			j++;
 		}
-		j = 0;
-		i++;
+		if (j != len || map[i][0] != '1' || map[i][len - 1] != '1')
+			return (0);
 	}
 	if ((p != 1) || (c < 1) || (e < 1))
 		return (0);
-	return (1);
+	return (top_bot_valid(map, i));
 }
 
 char	**load_map(const char *path)
@@ -397,6 +424,21 @@ int	count_collectibles(char **map)
 	return (c);
 }
 
+t_mapsize	get_map_size(char **map)
+{
+	t_mapsize size = {0, 0};
+
+	if (!map || !map[0])
+		return size;
+
+	size.y = 0;
+	while (map[size.y])
+		size.y++;
+
+	size.x = strlen(map[0]); // assumes map is rectangular
+	return size;
+}
+
 int	main(int argc, char *argv[])
 {
 	t_window 	win = {0};
@@ -418,6 +460,10 @@ int	main(int argc, char *argv[])
 		free(map);
 		return (1);
 	}
+	t_mapsize map_size = get_map_size(map);
+	int width = map_size.x * 50;
+	int height = map_size.y * 50;
+
 	win.map = map;
 	win.items_left = count_collectibles(map);
 	win.moves = 0;
@@ -425,8 +471,8 @@ int	main(int argc, char *argv[])
     if (!win.mlx)
 		return (1);
 
-    win.window = mlx_new_window(win.mlx, 960, 480, "Step One!");
-    mlx_img.img = mlx_new_image(win.mlx, 1920, 1080);
+    win.window = mlx_new_window(win.mlx, width - 50, height, "Step One!");
+    mlx_img.img = mlx_new_image(win.mlx, width - 50, height);
     mlx_img.addr = mlx_get_data_addr(mlx_img.img, &mlx_img.bitspp, &mlx_img.line_len, &mlx_img.endian);
     win.img = &mlx_img;
 
