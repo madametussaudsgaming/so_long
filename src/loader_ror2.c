@@ -3,63 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   loader_ror2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:05:40 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:18:51 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:13:08 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
+int	count_lines(int fd)
+{
+	int		count;
+	char	*line;
+
+	count = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		count++;
+		line = get_next_line(fd);
+	}
+	return (count);
+}
+
 char	**load_map(const char *path)
 {
 	int		fd;
-	char	*line;
-	char	**map = NULL;
-	int		lines_alloc = 8;
-	int		line_count = 0;
-
-	map = malloc(sizeof(char *) * lines_alloc);
-	if (!map)
-		return (NULL);
+	int		i;
+	int		lines;
+	char	**map;
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("open failed");
-		free(map);
 		return (NULL);
-	}
-	while ((line = get_next_line(fd)))
-	{
-		if (line_count >= lines_alloc - 1)
-		{
-			lines_alloc *= 2;
-			char **tmp = realloc(map, sizeof(char *) * lines_alloc);
-			if (!tmp)
-			{
-				perror("realloc failed");
-				free(line);
-				break;
-			}
-			map = tmp;
-		}
-		map[line_count++] = line;
-	}
-	map[line_count] = NULL;
+	lines = count_lines(fd);
 	close(fd);
-	return map;
+	fd = open(path, O_RDONLY);
+	map = malloc(sizeof(char *) * (lines + 1));
+	if (!map)
+		return (NULL);
+	i = 0;
+	while (i < lines)
+		map[i++] = get_next_line(fd);
+	map[i] = NULL;
+	close(fd);
+	return (map);
 }
 
 void	load_sprites(t_window *win)
 {
-	int	w;
-	int	h;
-
-	win->sprites.wall = mlx_xpm_file_to_image(win->mlx, "textures/wall.xpm", &w, &h);
-	win->sprites.floor = mlx_xpm_file_to_image(win->mlx, "textures/floor.xpm", &w, &h);
-	win->sprites.player = mlx_xpm_file_to_image(win->mlx, "textures/player.xpm", &w, &h);
-	win->sprites.items = mlx_xpm_file_to_image(win->mlx, "textures/items.xpm", &w, &h);
-	win->sprites.exit = mlx_xpm_file_to_image(win->mlx, "textures/exit.xpm", &w, &h);
+	win->sprites.wall = xpm_conv(win, '1');
+	win->sprites.floor = xpm_conv(win, '0');
+	win->sprites.player = xpm_conv(win, 'P');
+	win->sprites.items = xpm_conv(win, 'C');
+	win->sprites.exit = xpm_conv(win, 'E');
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:48:56 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:05:05 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:51:44 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
-int		top_bottom_valid(char **map, int i)
+int	top_bottom_valid(char **map, int i)
 {
 	int	len;
 	int	j;
@@ -28,36 +28,34 @@ int		top_bottom_valid(char **map, int i)
 	return (1);
 }
 
-int		validate_map(char **map)
+int	validate_map(char **map)
 {
-	int i;
-	int j;
-	int e;
-	int p;
-	int c;
+	int	i;
+	int	j;
 	int	len;
+	int	num[3];
 
+	num[0] = 0;
+	num[1] = 1;
+	num[2] = 2;
 	i = -1;
-	e = 0;
-	p = 0;
-	c = 0;
 	len = ft_mapstrlen(map);
 	while (map[++i])
 	{
 		j = -1;
-		while(map[i][++j] && map[i][j] != '\n')
+		while (map[i][++j] && map[i][j] != '\n')
 		{
 			if ((map[i][j]) == 'P')
-				p++;
+				num[0]++;
 			if ((map[i][j]) == 'C')
-				c++;
+				num[1]++;
 			if ((map[i][j]) == 'E')
-				e++;
+				num[2]++;
 		}
 		if (j != len || map[i][0] != '1' || map[i][len - 1] != '1')
 			return (0);
 	}
-	if ((p != 1) || (c < 1) || (e < 1))
+	if ((num[0] != 1) || (num[1] < 1) || (num[2] < 1))
 		return (0);
 	return (top_bottom_valid(map, i));
 }
