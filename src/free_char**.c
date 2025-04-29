@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   free_char**.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 07:51:36 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:06:37 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/04/28 15:48:52 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/04/28 21:15:01 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../headerfile/so_long.h"
 
-char	*ft_strdup(const char *s1)
+void	free_char_array(char **arr)
 {
-	size_t	i;
-	char	*dest;
+	int	i;
 
-	dest = (char *) malloc(ft_strlen(s1) + 1);
-	if (!dest)
-		return (0);
 	i = 0;
-	while (s1[i])
+	if (!arr)
+		return ;
+	while (arr[i])
 	{
-		dest[i] = s1[i];
+		free(arr[i]);
 		i++;
 	}
-	dest[i] = 0;
-	return (dest);
+	free(arr);
 }

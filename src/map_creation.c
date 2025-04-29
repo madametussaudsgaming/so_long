@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   map_creation.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 07:51:36 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:06:37 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/04/28 15:48:48 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/04/28 21:53:54 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../headerfile/so_long.h"
 
-char	*ft_strdup(const char *s1)
+void	make_map(char **map, t_window *win, int tile_size)
 {
-	size_t	i;
-	char	*dest;
+	t_coord	xy;
+	int		i;
+	int		j;
 
-	dest = (char *) malloc(ft_strlen(s1) + 1);
-	if (!dest)
-		return (0);
-	i = 0;
-	while (s1[i])
+	i = -1;
+	while (map[++i])
 	{
-		dest[i] = s1[i];
-		i++;
+		j = -1;
+		while (map[i][++j])
+		{
+			xy.x = j * tile_size;
+			xy.y = i * tile_size;
+			xpm_img(win, xy, map[i][j]);
+		}
 	}
-	dest[i] = 0;
-	return (dest);
 }

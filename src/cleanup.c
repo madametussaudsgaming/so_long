@@ -1,0 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 15:38:40 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/04/28 20:56:43 by rpadasia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../headerfile/so_long.h"
+
+void	destroy_sprites(t_window *win)
+{
+	if (win->sprites.wall)
+	{
+		mlx_destroy_image(win->mlx, win->sprites.wall);
+		win->sprites.wall = NULL;
+	}
+	if (win->sprites.floor)
+	{
+		mlx_destroy_image(win->mlx, win->sprites.floor);
+		win->sprites.floor = NULL;
+	}
+	if (win->sprites.player)
+	{
+		mlx_destroy_image(win->mlx, win->sprites.player);
+		win->sprites.player = NULL;
+	}
+	if (win->sprites.items)
+	{
+		mlx_destroy_image(win->mlx, win->sprites.items);
+		win->sprites.items = NULL;
+	}
+	if (win->sprites.exit)
+	{
+		mlx_destroy_image(win->mlx, win->sprites.exit);
+		win->sprites.exit = NULL;
+	}
+}
+
+void	cleanup(t_window *win)
+{
+	if (win->img && win->img->img)
+	{
+		mlx_destroy_image(win->mlx, win->img->img);
+		win->img->img = NULL;
+	}
+	if (win->win_img)
+	{
+		mlx_destroy_image(win->mlx, win->win_img);
+		win->win_img = NULL;
+	}
+	destroy_sprites(win);
+	if (win->window)
+	{
+		mlx_destroy_window(win->mlx, win->window);
+		win->window = NULL;
+	}
+	if (win->mlx)
+	{
+		mlx_destroy_display(win->mlx);
+		free(win->mlx);
+		win->mlx = NULL;
+	}
+}

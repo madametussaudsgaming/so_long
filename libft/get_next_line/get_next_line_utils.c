@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:59:12 by rpadasia          #+#    #+#             */
-/*   Updated: 2024/12/16 16:14:46 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:03:33 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ char	*ft_strjoin(const char	*s1, const char	*s2)
 	return (res);
 }
 
-size_t	ft_strlen(const	char *s)
+int	ft_strlen(const	char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
