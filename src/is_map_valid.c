@@ -1,32 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_creation.c                                     :+:      :+:    :+:   */
+/*   is_map_valid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 15:48:48 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 15:02:13 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/04/30 01:18:51 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/04/30 14:50:25 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
-void	make_map(char **map, t_window *win, int tile_size)
+void	flooder(char **copy)
 {
-	t_coord	xy;
-	int		i;
-	int		j;
+	int	x;
+	int	y;
 
-	i = -1;
-	while (map[++i])
+	y = 0;
+	while (copy[y])
 	{
-		j = -1;
-		while (map[i][++j])
+		x = 0;
+		while (copy[y][x])
 		{
-			xy.x = j * tile_size;
-			xy.y = i * tile_size;
-			xpm_img(win, xy, map[i][j]);
+			if (copy[y][x] == 'P')
+				flood_fill(copy, x, y);
+			x++;
 		}
+		y++;
 	}
+}
+
+bool	map_is_valid(char **map)
+{
+	char	**copy;
+
+	copy = map_dup(map);
+	if (!copy)
+		return (false);
+	flooder(copy);
+	if (!check_unreachable(copy))
+	{
+		free_char_array(copy);
+		return (false);
+	}
+	free_char_array(copy);
+	return (true);
 }

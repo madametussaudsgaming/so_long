@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:45:37 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:07:48 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:58:10 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ char	**map_dup(char **map)
 
 	i = 0;
 	while (map[i])
-	{
-		copy = malloc(sizeof(char *) * (i + 1));
 		i++;
-	}
+	copy = malloc(sizeof(char *) * (i + 1));
 	if (!copy)
 		return (NULL);
+	i = 0;
 	while (map[i])
 	{
-		copy[i] = strdup(map[i]);
+		copy[i] = ft_strdup(map[i]);
 		i++;
 	}
 	copy[i] = NULL;

@@ -6,24 +6,23 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:48:22 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 21:14:50 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:44:54 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
-void	flood_fill(char **map, int x, int y)
+void	flood_fill(char **m, int x, int y)
 {
-	if (!map[y] || map[y][x] == '1' || map[y][x] == 'F')
+	if (!m[y] || !m[y][x])
 		return ;
-	if (map[y][x] == '0' || map[y][x] == 'C')
-		map[y][x] = 'F';
-	if (map[y][x] == 'E' || map[y][x] == 'P')
-		map[y][x] = 'F';
-	else
+	if (m[y][x] == '1' || m[y][x] == 'F')
 		return ;
-	flood_fill(map, x + 1, y);
-	flood_fill(map, x - 1, y);
-	flood_fill(map, x, y + 1);
-	flood_fill(map, x, y - 1);
+	if (m[y][x] != '0' && m[y][x] != 'C' && m[y][x] != 'E' && m[y][x] != 'P')
+		return ;
+	m[y][x] = 'F';
+	flood_fill(m, x + 1, y);
+	flood_fill(m, x - 1, y);
+	flood_fill(m, x, y + 1);
+	flood_fill(m, x, y - 1);
 }

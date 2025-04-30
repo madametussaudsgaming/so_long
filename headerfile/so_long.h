@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:32:25 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/29 14:48:41 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:51:43 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int			x_button(void *param);
 t_mapsize	get_map_size(char **map);
 int			count_collectibles(char **map);
 void		move_player(char **map, char dir, t_window *win);
-void		render_map(char **map, t_window *win, int tile_size);
 t_coord		find_player(char **map);
 void		destroy_sprites(t_window *win);
 void		load_sprites(t_window *win);
@@ -93,5 +92,7 @@ void		free_char_array(char **arr);
 void		redraw(t_window *win);
 void		xpm_img(t_window *w, t_coord xy, char sprite);
 void		*xpm_conv(t_window *win, char sprite);
+void		count_elements(char **map, int *num, int len);
+int			check_unreachable(char **copy);
 
 #endif

@@ -6,17 +6,19 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:37:58 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 17:08:52 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:48:24 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
-int drax(int keycode, void *param)
+int	drax(int keycode, void *param)
 {
-    t_window *win = (t_window *)param;
+	t_window	*win;
 
-    if (keycode == 65307)
+	win = (t_window *)param;
+
+	if (keycode == 65307)
 		mlx_loop_end(win->mlx);
 	else if (keycode == 'w' || keycode == 65362)
 		move_player(win->map, 'W', win);
@@ -27,7 +29,7 @@ int drax(int keycode, void *param)
 	else if (keycode == 'd' || keycode == 65363)
 		move_player(win->map, 'D', win);
 
-    return (0);
+	return (0);
 }
 
 int	x_button(void *param)

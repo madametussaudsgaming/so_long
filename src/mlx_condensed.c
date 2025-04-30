@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_condensed.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:21:31 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/29 14:50:09 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 01:15:56 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ void	*xpm_conv(t_window *win, char sprite)
 		return (mlx_xpm_file_to_image(win->mlx, "textures/exit.xpm", &w, &h));
 	return (0);
 }
-
