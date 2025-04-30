@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:26:15 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/29 13:19:08 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 21:39:59 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,33 @@ void	handle_exit(t_window *win, t_coord p, t_coord n)
 	int	w;
 	int	h;
 
-	win->map[n.y][n.x] = 'P';
+	win->map[n.y][n.x] = 'E';
 	win->map[p.y][p.x] = '0';
 	win->won = 1;
 	redraw(win);
-	win->win_img = mlx_xpm_file_to_image(win->mlx, "wi.xpm", &w, &h);
+	win->win_img = mlx_xpm_file_to_image(win->mlx, "textures/win.xpm", &w, &h);
 	(void)w;
 	(void)h;
 	if (win->win_img)
 		mlx_put_image_to_window(win->mlx, win->window, win->win_img, 0, 0);
 	ft_printf("🎉🎉🎉We have a winner! Press ESC to exit...\n");
+}
+
+void	touch_enemy(t_window *win, t_coord p, t_coord n)
+{
+	int	w;
+	int	h;
+
+	win->map[n.y][n.x] = 'B';
+	win->map[p.y][p.x] = '0';
+	win->won = 1;
+	redraw(win);
+	win->win_img = mlx_xpm_file_to_image(win->mlx, "textures/over.xpm", &w, &h);
+	(void)w;
+	(void)h;
+	if (win->win_img)
+		mlx_put_image_to_window(win->mlx, win->window, win->win_img, 0, 0);
+	ft_printf("You got too close to the bird! Press ESC to exit...\n");
 }
 
 void	attempt_move(t_window *win, t_coord p, t_coord n, char dest)
@@ -54,6 +71,8 @@ void	attempt_move(t_window *win, t_coord p, t_coord n, char dest)
 		ft_printf("Moves: %d | C left: %d\n", win->moves, win->items_left);
 		redraw(win);
 	}
+	else if (dest == 'B')
+		touch_enemy(win, p, n);
 	else
 		ft_printf("Blocked at [%d,%d]\n", n.y, n.x);
 }

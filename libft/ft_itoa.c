@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpadasia <rpadasia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:23:10 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/08 12:57:56 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 22:20:53 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,43 @@ static int	num_len(int n)
 {
 	int	len;
 
+	if (n == 0)
+		return (1);
 	len = 0;
 	if (n < 0)
 		n = -n;
-	len++;
-	if (n == 0)
-		len++;
-	while (n != 0)
+	while (n > 0)
 	{
+		n /= 10;
 		len++;
-		n = n / 10;
 	}
 	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	int		length;
 	char	*str;
 	long	num;
+	int		len;
 
 	num = n;
-	length = num_len(num);
-	str = (char *)malloc(sizeof(char) * (length + 1));
+	len = num_len(num);
+	if (n < 0)
+		len++;
+	str = malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	str[length--] = '\0';
+	str[len] = '\0';
+	if (num == 0)
+		str[0] = '0';
 	if (num < 0)
 	{
 		str[0] = '-';
 		num = -num;
 	}
-	if (num == 0)
-		str[0] = '0';
 	while (num > 0)
 	{
-		str[length--] = (num % 10) + '0';
+		str[--len] = (num % 10) + '0';
 		num /= 10;
 	}
 	return (str);

@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 01:18:51 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 14:50:25 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 22:11:30 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	flooder(char **copy)
 	}
 }
 
-bool	map_is_valid(char **map)
+bool	all_reachable(char **map)
 {
 	char	**copy;
 

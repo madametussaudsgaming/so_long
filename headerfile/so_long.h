@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:32:25 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 17:32:02 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 22:11:01 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_window
 
 void		make_map(char **map, t_window *win, int tile_size);
 int			drax(int keycode, void *param);
-bool		map_is_valid(char **map);
+bool		all_reachable(char **map);
 char		**map_dup(char **map);
 void		flood_fill(char **map, int x, int y);
 void		draw_tile(t_coord xy, t_data *img, int size, int color);
@@ -99,5 +99,6 @@ void		count_elements(char **map, int *num, int len);
 int			check_unreachable(char **copy);
 void		load_player_idle(t_window *win);
 int			update(void *param);
+void		display_moves(t_window *win);
 
 #endif

@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 15:48:22 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 22:08:09 by rpadasia         ###   ########.fr       */
+/*   Created: 2025/04/30 21:56:46 by rpadasia          #+#    #+#             */
+/*   Updated: 2025/04/30 22:04:16 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
 
-void	flood_fill(char **m, int x, int y)
+void	display_moves(t_window *win)
 {
-	if (!m[y] || !m[y][x])
+	char	*moves_str;
+	char	*full_str;
+
+	moves_str = ft_itoa(win->moves);
+	if (!moves_str)
 		return ;
-	if (m[y][x] == '1' || m[y][x] == 'F' || m[y][x] == 'B')
+	full_str = ft_strjoin("Moves: ", moves_str);
+	free(moves_str);
+	if (!full_str)
 		return ;
-	if (m[y][x] != '0' && m[y][x] != 'C' && m[y][x] != 'E' && m[y][x] != 'P')
-		return ;
-	m[y][x] = 'F';
-	flood_fill(m, x + 1, y);
-	flood_fill(m, x - 1, y);
-	flood_fill(m, x, y + 1);
-	flood_fill(m, x, y - 1);
+	mlx_string_put(win->mlx, win->window, 10, 10, 0x00FFFFFF, full_str);
+	free(full_str);
 }

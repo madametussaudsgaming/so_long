@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:45:37 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 14:58:10 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 22:16:42 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,19 @@ int	count_collectibles(char **map)
 		i++;
 	}
 	return (c);
+}
+
+t_mapsize	get_map_size(char **map)
+{
+	t_mapsize	size;
+
+	size.x = 0;
+	size.y = 0;
+	if (!map || !map[0])
+		return (size);
+	size.y = 0;
+	while (map[size.y])
+		size.y++;
+	size.x = strlen(map[0]);
+	return (size);
 }

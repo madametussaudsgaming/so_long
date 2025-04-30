@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:05:40 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 17:32:41 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:21:27 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	load_sprites(t_window *win)
 	win->sprites.items = xpm_conv(win, 'C');
 	win->sprites.exit = xpm_conv(win, 'E');
 	win->sprites.enemy = xpm_conv(win, 'B');
-
 }
 
 void	load_player_idle(t_window *win)

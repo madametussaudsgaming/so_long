@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:38:40 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 17:35:43 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:21:00 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ void	destroy_sprites(t_window *win)
 		mlx_destroy_image(win->mlx, win->sprites.wall);
 		win->sprites.wall = NULL;
 	}
-	if (win->sprites.floor)
-	{
-		mlx_destroy_image(win->mlx, win->sprites.floor);
-		win->sprites.floor = NULL;
-	}
+	mlx_destroy_image(win->mlx, win->sprites.floor);
+	win->sprites.floor = NULL;
 	destroy_player(win);
 	if (win->sprites.items)
 	{

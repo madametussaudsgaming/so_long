@@ -6,7 +6,7 @@
 #    By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/13 18:33:54 by rpadasia          #+#    #+#              #
-#    Updated: 2025/04/23 19:07:14 by rpadasia         ###   ########.fr        #
+#    Updated: 2025/04/30 22:23:18 by rpadasia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,22 +35,22 @@ CFLAGS = -Wall -Wextra -Werror -I.
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(LIBC) $(NAME) $(OBJ)
+	@$(LIBC) $(NAME) $(OBJ)
 
 bonus: $(NAME) $(OBJB)
-	$(LIBC) $(NAME) $(OBJB)
+	@$(LIBC) $(NAME) $(OBJB)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I get_next_line -I ft_printf -fPIC -c $< -o $@
+	@$(CC) $(CFLAGS) -I get_next_line -I ft_printf -fPIC -c $< -o $@
 
 so: $(OBJ) $(OBJB)
-	$(CC) -nostartfiles -fPIC -shared -o $(SO_NAME) $(OBJ) $(OBJB)
+	@$(CC) -nostartfiles -fPIC -shared -o $(SO_NAME) $(OBJ) $(OBJB)
 
 clean:
-	$(RM) $(OBJ) $(OBJB)
+	@$(RM) $(OBJ) $(OBJB)
 
 fclean: clean
-	$(RM) $(NAME) $(SO_NAME)
+	@$(RM) $(NAME) $(SO_NAME)
 
 re: fclean all
 
