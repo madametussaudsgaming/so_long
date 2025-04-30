@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 17:05:40 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 14:36:19 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:43:56 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,22 @@ void	load_sprites(t_window *win)
 {
 	win->sprites.wall = xpm_conv(win, '1');
 	win->sprites.floor = xpm_conv(win, '0');
-	win->sprites.player = xpm_conv(win, 'P');
 	win->sprites.items = xpm_conv(win, 'C');
 	win->sprites.exit = xpm_conv(win, 'E');
+}
+
+void	load_player_idle(t_window *win)
+{
+	int		i;
+	int		w;
+	int		h;
+	char	path[32];
+
+	i = 0;
+	while (i < 2)
+	{
+		sprintf(path, "textures/player_%d.xpm", i);
+		win->sprites.player[i] = mlx_xpm_file_to_image(win->mlx, path, &w, &h);
+		i++;
+	}
 }

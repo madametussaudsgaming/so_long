@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:48:56 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 14:50:47 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:03:47 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,53 +92,3 @@ int	check_unreachable(char **copy)
 	}
 	return (1);
 }
-
-// int		top_bottom_valid(char **map, int i)
-// {
-// 	int	len;
-// 	int	j;
-
-// 	len = ft_mapstrlen(map);
-// 	j = 0;
-// 	while (j < len)
-// 	{
-// 		if (map[0][j] != '1' || map[i - 1][j] != '1')
-// 			return (0);
-// 		j++;
-// 	}
-// 	return (1);
-// }
-
-// int		validate_map(char **map)
-// {
-// 	int i;
-// 	int j;
-// 	int e;
-// 	int p;
-// 	int c;
-// 	int	len;
-
-// 	i = -1;
-// 	e = 0;
-// 	p = 0;
-// 	c = 0;
-// 	len = ft_mapstrlen(map);
-// 	while (map[++i])
-// 	{
-// 		j = -1;
-// 		while(map[i][++j] && map[i][j] != '\n')
-// 		{
-// 			if ((map[i][j]) == 'P')
-// 				p++;
-// 			if ((map[i][j]) == 'C')
-// 				c++;
-// 			if ((map[i][j]) == 'E')
-// 				e++;
-// 		}
-// 		if (j != len || map[i][0] != '1' || map[i][len - 1] != '1')
-// 			return (0);
-// 	}
-// 	if ((p != 1) || (c < 1) || (e < 1))
-// 		return (0);
-// 	return (top_bottom_valid(map, i));
-// }

@@ -6,11 +6,27 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:38:40 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/28 20:56:43 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:46 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headerfile/so_long.h"
+
+void	destroy_player(t_window *win)
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (win->sprites.player[i])
+		{
+			mlx_destroy_image(win->mlx, win->sprites.player[i]);
+			win->sprites.player[i] = NULL;
+		}
+		i++;
+	}
+}
 
 void	destroy_sprites(t_window *win)
 {
@@ -24,11 +40,7 @@ void	destroy_sprites(t_window *win)
 		mlx_destroy_image(win->mlx, win->sprites.floor);
 		win->sprites.floor = NULL;
 	}
-	if (win->sprites.player)
-	{
-		mlx_destroy_image(win->mlx, win->sprites.player);
-		win->sprites.player = NULL;
-	}
+	destroy_player(win);
 	if (win->sprites.items)
 	{
 		mlx_destroy_image(win->mlx, win->sprites.items);

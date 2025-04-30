@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:04:00 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 15:51:09 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:34:27 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,11 @@ int	main(int argc, char *argv[])
 	win.img = &mlx_img;
 
 	load_sprites(&win);
+	load_player_idle(&win);
 	make_map(map, &win, 50);
 	mlx_key_hook(win.window, drax, &win);
 	mlx_hook(win.window, 17, 0, x_button, &win);
+	mlx_loop_hook(win.mlx, update, &win);
 	mlx_loop(win.mlx);
 	free_char_array(map);
 	cleanup(&win);

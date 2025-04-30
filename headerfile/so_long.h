@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:32:25 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 15:51:43 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:36 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_sprites
 {
 	void	*wall;
 	void	*floor;
-	void	*player;
+	void	*player[2];
 	void	*items;
 	void	*exit;
 }	t_sprites;
@@ -65,6 +65,8 @@ typedef struct s_window
 	int			moves;
 	int			items_left;
 	int			won;
+	int			frame_counter;
+	int			player_frame;
 	void		*win_img;
 	t_sprites	sprites;
 }	t_window;
@@ -94,5 +96,7 @@ void		xpm_img(t_window *w, t_coord xy, char sprite);
 void		*xpm_conv(t_window *win, char sprite);
 void		count_elements(char **map, int *num, int len);
 int			check_unreachable(char **copy);
+void		load_player_idle(t_window *win);
+int			update(void *param);
 
 #endif
