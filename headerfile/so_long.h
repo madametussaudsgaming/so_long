@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:32:25 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 16:36:36 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:32:02 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_sprites
 	void	*player[2];
 	void	*items;
 	void	*exit;
+	void	*enemy;
 }	t_sprites;
 
 typedef struct s_window

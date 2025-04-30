@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:04:00 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 16:34:27 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:46:04 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	main(int argc, char *argv[])
 
 	if (!map_is_valid(map))
 	{
-		printf("❌ Map is invalid!\n");
+		ft_printf("Error, unreachables detected.\n");
 		free_char_array(map);
 		return (1);
 	}
 
 	if (!(validate_map(map)))
 	{
-		fprintf(stderr, "Failed to load map\n");
+		ft_printf("Error, invalid configuration\n");
 		free_char_array(map);
 		return (1);
 	}

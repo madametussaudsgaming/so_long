@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 21:21:31 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 17:05:07 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:32:58 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	xpm_img(t_window *w, t_coord xy, char sprite)
 		tile = w->sprites.player[w->player_frame];
 	else if (sprite == 'E')
 		tile = w->sprites.exit;
+	else if (sprite == 'B')
+		tile = w->sprites.enemy;
 	if (tile)
 		mlx_put_image_to_window(w->mlx, w->window, tile, xy.x, xy.y);
 }
@@ -38,11 +40,13 @@ void	*xpm_conv(t_window *win, char sprite)
 
 	if (sprite == '1')
 		return (mlx_xpm_file_to_image(win->mlx, "textures/wall.xpm", &w, &h));
-	if (sprite == '0')
+	else if (sprite == '0')
 		return (mlx_xpm_file_to_image(win->mlx, "textures/floor.xpm", &w, &h));
-	if (sprite == 'C')
+	else if (sprite == 'C')
 		return (mlx_xpm_file_to_image(win->mlx, "textures/items.xpm", &w, &h));
-	if (sprite == 'E')
+	else if (sprite == 'E')
 		return (mlx_xpm_file_to_image(win->mlx, "textures/exit.xpm", &w, &h));
+	else if (sprite == 'B')
+		return (mlx_xpm_file_to_image(win->mlx, "textures/enemy.xpm", &w, &h));
 	return (0);
 }

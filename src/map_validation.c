@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 14:48:56 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 16:03:47 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:37:21 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	validate_map(char **map)
 	count_elements(map, num, len);
 	if (num[3] == -1)
 		return (0);
-	if (num[0] != 1 || num[1] < 1 || num[2] < 1)
+	if (num[0] != 1 || num[1] < 1 || num[2] != 1)
 		return (0);
 	return (top_bottom_valid(map, num[3]));
 }

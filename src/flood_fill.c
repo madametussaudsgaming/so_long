@@ -6,7 +6,7 @@
 /*   By: rpadasia <ryanpadasian@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:48:22 by rpadasia          #+#    #+#             */
-/*   Updated: 2025/04/30 15:44:54 by rpadasia         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:33:50 by rpadasia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	flood_fill(char **m, int x, int y)
 	if (m[y][x] == '1' || m[y][x] == 'F')
 		return ;
 	if (m[y][x] != '0' && m[y][x] != 'C' && m[y][x] != 'E' && m[y][x] != 'P')
-		return ;
+		if (m[y][x] != 'B')
+			return ;
 	m[y][x] = 'F';
 	flood_fill(m, x + 1, y);
 	flood_fill(m, x - 1, y);
